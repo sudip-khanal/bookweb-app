@@ -30,7 +30,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ github.actor }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
+        tags: sudipkhanal/${{ env.IMAGE_NAME }}:${{ github.run_number }}
 
     - name: Set up Helm
       uses: azure/setup-helm@v1
@@ -44,7 +44,7 @@ jobs:
 
     - name: Deploy to Kubernetes with Helm
       run: |
-        helm upgrade --install ${{ env.HELM_RELEASE_NAME }} ./helm-chart --namespace ${{ env.HELM_NAMESPACE }} --set image.repository=${{ github.actor }}/${{ env.IMAGE_NAME }} --set image.tag=${{ github.run_number }}
+        helm upgrade --install ${{ env.HELM_RELEASE_NAME }} ./helm-chart --namespace ${{ env.HELM_NAMESPACE }} --set image.repository=sudipkhanal/${{ env.IMAGE_NAME }} --set image.tag=${{ github.run_number }}
         
     - name: Notify ArgoCD (optional)
       uses: peter-evans/repository-dispatch@v1
@@ -52,4 +52,4 @@ jobs:
         token: ${{ secrets.PAT }}
         repository: ${{ github.actor }}/argocd-django-app-config
         event-type: new-image
-        client-payload: '{"image": "${{ github.actor }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"}'
+        client-payload: '{"image": "sudipkhanal/${{ env.IMAGE_NAME }}:${{ github.run_number }}"}'
